@@ -3,7 +3,7 @@
   var LENGTH = 120;
   var CAMERA_PADDING = 20;
   var GROWTH_RATE = 30;
-  var LIGHT_RANGE = 140;
+  var LIGHT_RANGE = LENGTH;
   var easings = [
     TWEEN.Easing.Linear.None,
     TWEEN.Easing.Quadratic.Out,
@@ -88,7 +88,7 @@
   function makeGrid () {
     var gridLength = LENGTH + 10;
 
-    var floorGrid = new THREE.GridHelper(gridLength, 80, 0x888888);
+    var floorGrid = new THREE.GridHelper(gridLength, 50, 0x888888);
     floorGrid.position.y = 1.1;
     scene.add(floorGrid);
 
@@ -157,22 +157,23 @@
       new THREE.PointLight(0x0000ff, 1.0, LENGTH * 0.75, 4),
       new THREE.PointLight(0xff0000, 1.0, LENGTH * 0.75, 4),
       new THREE.PointLight(0x0000ff, 1.0, LENGTH * 0.75, 4),
-      new THREE.PointLight(0xff0000, 0.5, LENGTH, 2),
-      new THREE.PointLight(0x0000ff, 0.5, LENGTH, 2),
-      new THREE.PointLight(0xff0000, 0.5, LENGTH, 2),
-      new THREE.PointLight(0x0000ff, 0.5, LENGTH, 2)
+      new THREE.PointLight(0xff0000, 0.75, LENGTH, 2),
+      new THREE.PointLight(0x0000ff, 0.75, LENGTH, 2),
+      new THREE.PointLight(0xff0000, 0.75, LENGTH, 2),
+      new THREE.PointLight(0x0000ff, 0.75, LENGTH, 2),
+      new THREE.PointLight(0xff0000, 0.75, LENGTH, 2),
     ];
 
     lights.forEach(function (light) {
       light._doPTween = function () {
         var duration = Math.random() * 60000 + 30000;
-        var to = { x: rr(LIGHT_RANGE), y: Math.random() * 140, z: rr(LIGHT_RANGE) };
+        var to = { x: rr(LIGHT_RANGE), y: Math.pow(Math.random(), 1.5)  * 140, z: rr(LIGHT_RANGE) };
         light._pTween = new TWEEN.Tween(light.position).to(to, duration).start().onComplete(function() {
           light._doPTween();
         });
       };
 
-      light.position.set(rr(LIGHT_RANGE), Math.random() * 140, rr(LIGHT_RANGE));
+      light.position.set(rr(LIGHT_RANGE), Math.random() * 80, rr(LIGHT_RANGE));
       light._doPTween();
       light.castShadow = true;
 
