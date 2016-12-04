@@ -4,6 +4,7 @@
   var CAMERA_PADDING = 20;
   var GROWTH_RATE = 30;
   var LIGHT_RANGE = LENGTH;
+  var LIMIT = 200;
   var easings = [
     TWEEN.Easing.Linear.None,
     TWEEN.Easing.Quadratic.Out,
@@ -77,6 +78,9 @@
     frames += 1;
     if (frames % GROWTH_RATE === 0) {
       makePillar();
+      if (pillars.length > LIMIT) {
+        removePillar();
+      }
     }
 
     TWEEN.update(time);
@@ -146,6 +150,20 @@
     var easing = easings[Math.floor(easings.length * Math.random())];
     mesh._growthTween = new TWEEN.Tween(mesh.scale).to({ y: y }, duration).easing(easing).start().onUpdate(function () {
       mesh.position.y = mesh.scale.y / 2;
+    });
+  }
+
+  function removePillar () {
+    var mesh = pillars.shift();
+    if (mesh._growthTween) {
+      mesh._growthTween.stop();
+    }
+
+    var duration = Math.random() * 2000 + 1000;
+    new TWEEN.Tween(mesh.scale).to({ y: 0 }, duration).start().onUpdate(function () {
+      mesh.position.y = mesh.scale.y / 2;
+    }).onComplete(function () {
+      scene.remove(mesh);
     });
   }
 
