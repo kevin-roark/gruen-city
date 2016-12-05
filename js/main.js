@@ -11,6 +11,13 @@
     TWEEN.Easing.Cubic.Out
   ];
 
+  var dom = {
+    loading: document.querySelector('.loading'),
+    title: document.querySelector('.title'),
+    soundButton: document.querySelector('.sound-button'),
+    track: document.querySelector('#track')
+  };
+
   var renderer = new THREE.WebGLRenderer({
     antialias: true
   });
@@ -53,6 +60,8 @@
   var pillars = [];
   var lights = [];
   var frames = 0;
+  var audio = null;
+  var muted = false;
 
   makeLights();
   makeGrid();
@@ -72,10 +81,42 @@
 
   function start () {
     update();
+
+    dom.track.play();
+    dom.track.addEventListener('ended', function () {
+      dom.track.currentTime = 0;
+      dom.track.play();
+    });
+
+    dom.soundButton.addEventListener('click', function () {
+      muted = !muted;
+
+      dom.track.muted = muted;
+
+      dom.soundButton.textContent = muted ? 'UNMUTE' : 'MUTE';
+      if (muted) {
+        dom.soundButton.classList.add('muted');
+      } else {
+        dom.soundButton.classList.remove('muted');
+      }
+    });
+
+    setTimeout(function() {
+      dom.title.style.opacity = 0;
+    }, 20000);
   }
 
   function update (time) {
     frames += 1;
+
+    if (frames === 1) {
+      dom.loading.style.opacity = 0;
+      dom.soundButton.style.opacity = 1;
+      dom.title.classList.remove('is-loading');
+    } else if (frames === 5) {
+      renderer.domElement.style.opacity = 1;
+    }
+
     if (frames % GROWTH_RATE === 0) {
       makePillar();
       if (pillars.length > LIMIT) {
