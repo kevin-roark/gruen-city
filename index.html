@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <link rel="shortcut icon" href="favicon.png">
 
-  <title>GRUEN CITY</title>
+  <title>GRUEN - NAME ON THE FRONT PAGE</title>
 
-  <meta name="description" content="INFINITE BLACK PILLARS" />
+  <meta name="description" content="NAME ON THE FRONT PAGE" />
   <meta name="author" content="Kevin Roark Jr">
-  <meta name="keywords" content="cyberpunk, gruen transfer">
+  <meta name="keywords" content="fame, name on the front page, cyberpunk, gruen transfer">
 
   <meta property="og:title" content="GRUEN CITY" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="" />
-  <meta property="og:image:width" content="" />
-  <meta property="og:image:height" content="" />
-  <meta property="og:description" content="INFINITE BLACK PILLARS" />
-  <meta property="og:url" content="" />
+  <meta property="og:image" content="http://gruen.kevinroark.com/media/screenshot.jpg" />
+  <meta property="og:image:width" content="2048" />
+  <meta property="og:image:height" content="1280" />
+  <meta property="og:description" content="NAME ON THE FRONT PAGE" />
+  <meta property="og:url" content="http://gruen.kevinroark.com" />
 
   <meta property="fb:admins" content="100000919641751" />
 
@@ -32,15 +33,68 @@
 
     body {
       overflow: hidden;
+      background: #000;
     }
 
     canvas {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      transition: opacity 8s ease-in;
     }
+
+    .title, .sound-button, .loading {
+      position: fixed;
+      z-index: 1;
+      font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+      transition: opacity 1s, color 0.4s, background 0.4s;
+    }
+
+    .loading {
+      top: 10px;
+      left: 10px;
+      color: #fff;
+      font-size: 10px;
+    }
+
+    .title {
+      bottom: 10px;
+      right: 10px;
+      color: #fff;
+      font-size: 16px;
+    }
+    .title.is-loading {
+      opacity: 0.8;
+    }
+
+    .sound-button {
+      bottom: 10px;
+      left: 10px;
+      color: #f00;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 2px;
+      opacity: 0;
+    }
+      .sound-button:hover {
+        background: #00f;
+      }
+    .sound-button.muted {
+      color: #00f;
+    }
+      .sound-button.muted:hover {
+        background: #f00;
+      }
   </style>
 </head>
 <body>
+  <div class="title is-loading">NAME ON THE FRONT PAGE</div>
+  <div class="sound-button">MUTE</div>
+
+  <div class="loading">LOADING...</div>
+
+  <audio id="track" preload volume="0.5" src="media/front_page.mp3" />
+
   <script src="js/three.min.js"></script>
   <script src="js/tween.min.js"></script>
   <script src="js/main.js"></script>
